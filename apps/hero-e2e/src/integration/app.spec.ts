@@ -1,13 +1,23 @@
-import { getGreeting } from '../support/app.po';
+import { AngularE2eTestingPage } from '../support/app.po';
 
 describe('hero', () => {
-  beforeEach(() => cy.visit('/'));
+  let page: AngularE2eTestingPage;
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+  beforeEach(() => {
+    page = new AngularE2eTestingPage();
+    cy.visit('/');
+  });
 
+  it('should open e2e test page and display button', () => {
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to hero!');
+    page.title().should('eq','Hero');
+    page.button().should('be.visible');
+  });
+
+  it('should open e2e test page and display button', () => {
+    // Function helper example, see `../support/app.po.ts` file
+    page.button().click().then(() => {
+      page.textElement().should('have.text', 'You are my hero!')
+    });
   });
 });
